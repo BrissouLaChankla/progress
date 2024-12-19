@@ -5,7 +5,7 @@ import connect from "@/models/connect";
 export async function POST(req) {
     await connect();
 
-    const data = await req.json();
+    const { data } = await req.json();
 
     const lastEntry = await Data.findOne()
         .sort({ date: -1 }) // Trie par date de création décroissante
