@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Data from "@/models/Data";
-import connect from "@/lib/connect";
+import connect from "@/models/connect";
 
 export async function POST(req) {
     await connect();
