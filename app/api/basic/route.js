@@ -13,11 +13,6 @@ export async function POST(req) {
 
     // Nombre de séances depuis la dernière fois
     const seancesSince = lastEntry ? data.totalVisits - lastEntry.sport : data.totalVisits;
-    console.log("data", data)
-    console.log("seancesSince", seancesSince)
-
-    return NextResponse.json({ data, seancesSince });
-
 
     const visits = data.recentVisits.slice(0, seancesSince).reverse();
 
@@ -38,9 +33,6 @@ export async function POST(req) {
             { $inc: { sport: 1 } })
 
     }
-
-
-    console.log(data.totalVisits)
 
 
     return NextResponse.json({ result: data });
