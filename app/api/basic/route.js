@@ -16,9 +16,9 @@ export async function POST(req) {
     console.log("data", data)
     console.log("seancesSince", seancesSince)
 
-    return {
-        data, seancesSince
-    }
+    return NextResponse.json({ data, seancesSince });
+
+
     const visits = data.recentVisits.slice(0, seancesSince).reverse();
 
 
