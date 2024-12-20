@@ -9,17 +9,17 @@ export default async function Home() {
   const tracking = {
     sport: {
       illu: "🏋️",
-      color: "#f4a462",
+      color: "#fb923c ",
       label: "Séances de sport",
       brand: "Basic Fit",
       start: data[0].sport,
       current: data[data.length - 1].sport,
       scale: "séances",
-      goal: 280,
+      goal: 300,
     },
     duolingo: {
       illu: "🦉",
-      color: "#e76e50",
+      color: "#4ade80 ",
       label: "Apprendre une langue",
       brand: "Duolingo",
       start: data[0].duolingo,
@@ -29,7 +29,7 @@ export default async function Home() {
     },
     chess: {
       illu: "♟️",
-      color: "#2a9d90",
+      color: "#60a5fa",
       label: "Échecs",
       brand: "Chess.com",
       start: data[0].chess,
@@ -39,17 +39,17 @@ export default async function Home() {
     },
     money: {
       illu: "💰",
-      color: "#e8c468",
+      color: "#facc15 ",
       label: "Investissements",
       brand: "Finary",
       start: Math.round(data[0].money),
       current: Math.round(data[data.length - 1].money),
       scale: "€",
-      goal: 45000,
+      goal: 55000,
     },
     lol: {
       illu: "🕹️",
-      color: "#274754",
+      color: "#c084fc",
       label: "Elo Flex + SoloQ",
       brand: "League of Legends",
       start: data[0].lol,
@@ -68,7 +68,6 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col lg:mt-10 items-center gap-8 max-w-screen-lg mx-auto">
-      <h1>Brice vs 2025</h1>
       <div className="flex gap-10">
         <span>Brice : <span className="text-primary">{totalProgress.toFixed(2)}%</span></span>
         <span>{new Date().getUTCFullYear()} : <span className="text-secondary">{getYearProgress().toFixed(2)}%</span></span>
@@ -115,7 +114,6 @@ export default async function Home() {
                 </td>
                 <th>
                   <ProgressBar min={track.start} value={track.current} max={track.goal} color={track.color} />
-                  {/* <input type="range" readOnly className="range range-primary range-xs h-[0.6rem] cursor-default"  /> */}
                 </th>
               </tr>)
             }
@@ -123,6 +121,7 @@ export default async function Home() {
           </tbody>
         </table>
       </div>
+
     </div>
   );
 }
