@@ -51,7 +51,7 @@ export default async function Home() {
       illu: "🕹️",
       color: "#274754",
       label: "Elo Flex + SoloQ",
-      brand: "League of legends",
+      brand: "League of Legends",
       start: data[0].lol,
       current: data[data.length - 1].lol,
       scale: "elo",
@@ -71,7 +71,7 @@ export default async function Home() {
       <h1>Brice vs 2025</h1>
       <div className="flex gap-10">
         <span>Brice : <span className="text-primary">{totalProgress.toFixed(2)}%</span></span>
-        <span>2025 : <span className="text-secondary">{getYearProgress().toFixed(2)}%</span></span>
+        <span>{new Date().getUTCFullYear()} : <span className="text-secondary">{getYearProgress().toFixed(2)}%</span></span>
       </div>
       <MainChart data={JSON.parse(JSON.stringify(data))} tracking={tracking} />
 
@@ -90,11 +90,11 @@ export default async function Home() {
           <tbody>
             {/* row 1 */}
             {
-              Object.values(tracking).map((track, i) => <tr key={i}>
+              Object.values(tracking).map((track, i) => <tr key={i} className="group">
                 <td className="border-l-4" style={{ borderColor: track.color }}>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
-                      <div className="text-4xl">
+                      <div className="text-4xl group-hover:scale-110">
                         {track.illu}
                       </div>
                     </div>

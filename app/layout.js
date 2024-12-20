@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <footer className="py-6 text-center bg-base-300 mt-8"><a className="link link-primary link-hover" href="https://brice-eliasse.com" target="_blank">Brice Eliasse</a></footer>
+        <footer className="py-4 text-center bg-base-300 mt-8"><a className="link link-primary link-hover text-sm" href="https://brice-eliasse.com" target="_blank">Brice Eliasse</a></footer>
       </body>
     </html>
   );
