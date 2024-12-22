@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import Data from "@/models/Data";
 import connect from "@/models/connect";
 
+export const revalidate = 43200;
+
 export async function POST(req) {
     await connect();
 
@@ -9,7 +11,7 @@ export async function POST(req) {
 
     const lastEntry = await Data.findOne()
         .sort({ date: -1 }) // Trie par date de création décroissante
-        .exec();
+        .exec().lean();
 
     // Nombre de séances depuis la dernière fois
     const seancesSince = lastEntry ? data.totalVisits - lastEntry.sport : data.totalVisits;

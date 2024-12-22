@@ -5,7 +5,7 @@ import ProgressBar from "@/components/ProgressBar";
 import { getYearProgress } from "@/utils/all";
 export default async function Home() {
   await connect()
-  const data = await Data.find();
+  const data = await Data.find().lean();
   const tracking = {
     sport: {
       illu: "🏋️",
