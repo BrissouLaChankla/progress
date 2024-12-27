@@ -3,6 +3,9 @@ import Data from '@/models/Data';
 import connect from "@/models/connect"
 import ProgressBar from "@/components/ProgressBar";
 import { getYearProgress } from "@/utils/all";
+export const revalidate = 43200;
+
+
 export default async function Home() {
   await connect()
   const data = await Data.find().lean();
