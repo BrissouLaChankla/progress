@@ -1,13 +1,12 @@
-import MainChart from "@/components/MainChart"
-import Data from '@/models/Data';
-import connect from "@/models/connect"
+import MainChart from "@/components/MainChart";
+import Data from "@/models/Data";
+import connect from "@/models/connect";
 import ProgressBar from "@/components/ProgressBar";
 import { getYearProgress } from "@/utils/all";
 export const revalidate = 43200;
 
-
 export default async function Home() {
-  await connect()
+  await connect();
   const data = await Data.find().lean();
   const tracking = {
     sport: {
@@ -50,30 +49,38 @@ export default async function Home() {
       scale: "€",
       goal: 55000,
     },
-    lol: {
-      illu: "🕹️",
-      color: "#c084fc",
-      label: "Elo Flex + SoloQ",
-      brand: "League of Legends",
-      start: data[0].lol,
-      current: data[data.length - 1].lol,
-      scale: "elo",
-      goal: 2500,
-    },
-  }
+    // lol: {
+    //   illu: "🕹️",
+    //   color: "#c084fc",
+    //   label: "Elo Flex + SoloQ",
+    //   brand: "League of Legends",
+    //   start: data[0].lol,
+    //   current: data[data.length - 1].lol,
+    //   scale: "elo",
+    //   goal: 2500,
+    // },
+  };
 
-  const totalProgress = Object.values(tracking).reduce((acc, item) => {
-    const progress = (item.current - item.start) / (item.goal - item.start) * 100;
-    return acc + progress;
-  }, 0) / Object.values(tracking).length;
-
-
+  const totalProgress =
+    Object.values(tracking).reduce((acc, item) => {
+      const progress =
+        ((item.current - item.start) / (item.goal - item.start)) * 100;
+      return acc + progress;
+    }, 0) / Object.values(tracking).length;
 
   return (
     <div className="flex flex-col lg:mt-10 items-center gap-8 max-w-screen-lg mx-auto">
       <div className="flex gap-10">
-        <span>Brice : <span className="text-primary">{totalProgress.toFixed(2)}%</span></span>
-        <span>{new Date().getUTCFullYear()} : <span className="text-secondary">{getYearProgress().toFixed(2)}%</span></span>
+        <span>
+          Brice :{" "}
+          <span className="text-primary">{totalProgress.toFixed(2)}%</span>
+        </span>
+        <span>
+          {new Date().getUTCFullYear()} :{" "}
+          <span className="text-secondary">
+            {getYearProgress().toFixed(2)}%
+          </span>
+        </span>
       </div>
       <MainChart data={JSON.parse(JSON.stringify(data))} tracking={tracking} />
 
@@ -91,8 +98,8 @@ export default async function Home() {
           </thead>
           <tbody>
             {/* row 1 */}
-            {
-              Object.values(tracking).map((track, i) => <tr key={i} className="group">
+            {Object.values(tracking).map((track, i) => (
+              <tr key={i} className="group">
                 <td className="border-l-4" style={{ borderColor: track.color }}>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
@@ -116,15 +123,18 @@ export default async function Home() {
                   {track.goal} <small>{track.scale}</small>
                 </td>
                 <th>
-                  <ProgressBar min={track.start} value={track.current} max={track.goal} color={track.color} />
+                  <ProgressBar
+                    min={track.start}
+                    value={track.current}
+                    max={track.goal}
+                    color={track.color}
+                  />
                 </th>
-              </tr>)
-            }
-
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }
