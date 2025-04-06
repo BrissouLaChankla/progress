@@ -10,6 +10,8 @@ export async function POST(req) {
 
     const newEat = new Eat({
       food: data.food,
+      grams: data.grams ? parseInt(data.grams) : 0,
+      quantity: data.quantity ? parseInt(data.quantity) : 0,
     });
 
     await newEat.save();
@@ -21,6 +23,21 @@ export async function POST(req) {
   } catch (error) {
     return NextResponse.json(
       { error: "Erreur lors de l'enregistrement de la consommation" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req) {
+  try {
+    await connect();
+
+    const eats = await Eat.find().populate("food");
+
+    return NextResponse.json({ eats });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur lors de la récupération des aliments" },
       { status: 500 }
     );
   }

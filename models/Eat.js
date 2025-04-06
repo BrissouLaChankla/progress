@@ -9,6 +9,12 @@ const eatSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  grams: {
+    type: Number,
+  },
+  quantity: {
+    type: Number,
+  },
 });
 
 export default mongoose.models.Eat || mongoose.model("Eat", eatSchema);

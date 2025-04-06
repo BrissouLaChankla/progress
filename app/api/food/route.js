@@ -23,7 +23,7 @@ export async function POST(req) {
         // Ajout d'un log pour déboguer
         console.log("Tentative d'upload sur Cloudinary...");
         const uploadResponse = await cloudinary.uploader.upload(data.image, {
-          transformation: [{ width: 100, height: 200, crop: "fill" }],
+          transformation: [{ width: 192, height: 224, crop: "fill" }],
           // Ajout de quelques options pour mieux gérer l'upload
           resource_type: "auto",
           timeout: 60000,
@@ -37,6 +37,10 @@ export async function POST(req) {
         );
       }
     }
+    let is100g = false;
+    if (data.is100g) {
+      is100g = true;
+    }
 
     const newFood = new Food({
       name: data.name,
@@ -44,6 +48,7 @@ export async function POST(req) {
       proteines: parseFloat(data.proteines),
       glucides: parseFloat(data.glucides),
       lipides: parseFloat(data.lipides),
+      is100g: is100g,
       image: imageUrl, // Ajout de l'URL de l'image
     });
 

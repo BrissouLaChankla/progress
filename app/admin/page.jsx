@@ -80,7 +80,7 @@ const meal = [
 ];
 
 import { useState, useEffect } from "react";
-
+import { Toaster, toast } from "sonner";
 export default function page() {
   const [foods, setFoods] = useState([]);
   const handleAdd = async (e) => {
@@ -115,31 +115,75 @@ export default function page() {
     fetchFoods();
   }, []);
 
-  const handleEat = async (id) => {
-    if (!confirm("Tu viens de graille ça ?")) {
-      return;
+  function getFoodScore({ calories, proteines, lipides }) {
+    if (!calories || calories === 0) return 0;
+
+    const score = ((proteines * 4 - lipides * 2) / calories) * 1000;
+
+    let category = "";
+    if (score >= 60) category = "🟢";
+    else if (score >= 40) category = "🟡";
+    else if (score >= 20) category = "🟠";
+    else category = "🔴";
+
+    return {
+      score: Math.ceil(score),
+      category,
+    };
+  }
+
+  const sortedFoods = foods.sort((a, b) => {
+    const scoreA = getFoodScore(a).score;
+    const scoreB = getFoodScore(b).score;
+    return scoreB - scoreA;
+  });
+
+  const handleEat = async (id, is100g) => {
+    let grams = null;
+    let quantity = null;
+    if (is100g) {
+      grams = prompt("Combien de grammes as-tu mangé ?");
+      if (!grams || isNaN(grams)) {
+        return;
+      }
+    } else {
+      quantity = prompt("Combien de quantités as-tu mangé ?");
+      if (!quantity || isNaN(quantity)) {
+        return;
+      }
     }
+
     const response = await fetch(`/api/eat`, {
       method: "POST",
-      body: JSON.stringify({ food: id }),
+      body: JSON.stringify({
+        food: id,
+        grams: grams,
+        quantity: quantity,
+      }),
     });
     const res = await response.json();
+    toast.success("Aliment ajouté avec succès");
     console.log(res);
   };
 
   return (
-    <div className="flex flex-col lg:mt-10 items-center gap-8 max-w-screen-lg mx-auto">
+    <div className="flex flex-col lg:mt-10 items-center gap-8 max-w-screen-xl mx-auto">
+      <Toaster />
+
       <h2 className="text-3xl mt-4 mb-2 font-bold">Je viens de manger :</h2>
-      <div className="flex flex-wrap gap-4">
-        {foods.map((food) => (
+      <div className="flex flex-wrap gap-4 justify-center">
+        {sortedFoods.map((food) => (
           <div
             key={food._id}
-            onClick={() => handleEat(food._id)}
+            onClick={() => handleEat(food._id, food.is100g)}
             className="cursor-pointer"
           >
-            <h3 className=" text-center mt-3 font-medium text-primary mb-2">
-              {food.name}
-            </h3>
+            <div className="flex  items-center justify-between my-2">
+              <h3 className=" font-medium text-primary ">{food.name}</h3>
+              <span className="text-sm text-gray-500">
+                {food.is100g ? "100g" : "1 quantité"}
+              </span>
+            </div>
             <div className=" flex flex-col items-center justify-center bg-white/5 pe-4  rounded-md">
               <div className="flex gap-4">
                 <img
@@ -174,12 +218,26 @@ export default function page() {
             />
           </div>
           <div className="col-span-7">
-            <input
-              type="text"
-              name="name"
-              placeholder="Nom de l'aliment"
-              className="input input-bordered w-full"
-            />
+            <div className="flex gap-2">
+              <input
+                type="text"
+                name="name"
+                placeholder="Nom de l'aliment"
+                className="input input-bordered w-3/4"
+              />
+              <div className="form-control">
+                <label className="label cursor-pointer">
+                  <span className="label-text">Pour 100g</span>
+                  <input
+                    type="checkbox"
+                    name="is100g"
+                    className="checkbox ms-2"
+                    defaultChecked
+                  />
+                </label>
+              </div>
+            </div>
+
             <div className="flex mt-4 gap-2">
               <input
                 required
@@ -227,21 +285,4 @@ export default function page() {
       <h2 className="text-3xl mt-4 mb-2 font-bold">Editer :</h2>
     </div>
   );
-}
-
-function getFoodScore({ calories, proteines, lipides }) {
-  if (!calories || calories === 0) return 0;
-
-  const score = ((proteines * 4 - lipides * 2) / calories) * 1000;
-
-  let category = "";
-  if (score >= 60) category = "🟢";
-  else if (score >= 40) category = "🟡";
-  else if (score >= 20) category = "🟠";
-  else category = "🔴";
-
-  return {
-    score: Math.ceil(score), // arrondi au nombre supérieur
-    category,
-  };
 }

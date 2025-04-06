@@ -3,6 +3,7 @@ import Data from "@/models/Data";
 import connect from "@/models/connect";
 import ProgressBar from "@/components/ProgressBar";
 import { getYearProgress } from "@/utils/all";
+import Macros from "@/components/Macros";
 export const revalidate = 43200;
 
 export default async function Home() {
@@ -135,6 +136,8 @@ export default async function Home() {
           </tbody>
         </table>
       </div>
+
+      <Macros />
     </div>
   );
 }

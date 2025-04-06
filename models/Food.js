@@ -19,6 +19,10 @@ const foodSchema = new mongoose.Schema({
   lipides: {
     type: Number,
   },
+  is100g: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export default mongoose.models.Food || mongoose.model("Food", foodSchema);
