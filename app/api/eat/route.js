@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connect from "@/models/connect";
 import Eat from "@/models/Eat";
-
+import Food from "@/models/Food";
 export async function POST(req) {
   try {
     await connect();
